@@ -1,7 +1,7 @@
 # libpmidi
 A library version of Steve Ratcliffe's pmidi, an ALSA MIDI player - http://www.parabola.me.uk/alsa/pmidi.html
 
-I've included two basic programs to demonstrate the API. I've exposed ALSA nonblocking mode to make this easier to add to other projects (see playfile.c).
+I've included two basic programs to demonstrate the API.
 
 ## Todo
 
