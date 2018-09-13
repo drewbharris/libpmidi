@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     pthread_t thread;
     pthread_create(&thread, NULL, pthread_play, argv[1]);  
 
-    usleep(1000 * 1000 * 5);
+    while(1) { usleep(1000 * 1000); }
 
     return 0;
 }

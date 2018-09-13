@@ -155,12 +155,14 @@ pmidi_playfile(seq_context_t *ctxp, char *filename)
 	snd_seq_set_output_buffer_size(seq_handle(ctxp), output_buffer * 2);
 	snd_seq_set_input_buffer_size(seq_handle(ctxp), input_buffer * 2);
 
+	// set nonblocking
+	snd_seq_nonblock(seq_handle(ctxp), 1);
+
 	/* Loop through all the elements in the song and play them */
 	seq = md_sequence_init(root);
 	while ((el = md_sequence_next(seq)) != NULL) {
 		play(ctxp, el);
 	}
-
 
 	/* Get the end time for the tracks and echo an event to
 	 * wake us up at that time
@@ -171,7 +173,11 @@ pmidi_playfile(seq_context_t *ctxp, char *filename)
 	snd_seq_drain_output(seq_handle(ctxp));
 
 	/* Wait for all the events to be played */
-	snd_seq_event_input(seq_handle(ctxp), &ep);
+	while (1) {
+		int resp = snd_seq_event_input(seq_handle(ctxp), &ep);
+		printf("%d\n", resp);
+		usleep(1000*1000);
+	}
 
 	seq_stop_timer(ctxp);
 
