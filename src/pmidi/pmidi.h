@@ -17,6 +17,7 @@ typedef struct {
 
 seq_context_t *pmidi_openports(char *);
 void pmidi_playfile(seq_context_t *, char *);
+int pmidi_close(seq_context_t *);
 pmidi_port_list_t* pmidi_getports();
 void pmidi_destroyports(pmidi_port_list_t *);
 #endif

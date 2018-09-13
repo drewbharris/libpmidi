@@ -10,6 +10,7 @@ seq_context_t *pmidi_context;
 void *pthread_play(void *pntr) {
     char *filename = (char *)pntr;
     pmidi_playfile(pmidi_context, filename);
+    printf("after playfile\n");
     exiting = 1;
     return NULL;
 }
@@ -28,9 +29,10 @@ int main(int argc, char *argv[]) {
     pthread_t thread;
     pthread_create(&thread, NULL, pthread_play, argv[1]);  
 
-    while (!exiting) {
-        usleep(1000);
-    }
+    usleep(1000 * 1000 * 5);
+    int resp = pmidi_close(pmidi_context);
+    printf("resp: %d\n", resp);
+    usleep(1000 * 1000 * 2);
 
     return 0;
 }

@@ -169,6 +169,12 @@ pmidi_playfile(seq_context_t *ctxp, char *filename)
 	md_free(MD_ELEMENT(root));
 }
 
+int 
+pmidi_close(seq_context_t *ctxp)
+{
+	return snd_seq_close(seq_handle(ctxp));
+}
+
 /* Get a list of ports */
 pmidi_port_list_t*
 pmidi_getports()
