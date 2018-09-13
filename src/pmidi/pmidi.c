@@ -146,6 +146,15 @@ pmidi_playfile(seq_context_t *ctxp, char *filename)
 	if (!root)
 		return;
 
+	int input_buffer = snd_seq_get_input_buffer_size(seq_handle(ctxp));
+	int output_buffer = snd_seq_get_output_buffer_size(seq_handle(ctxp));
+
+	printf("input buffer: %d, output buffer: %d\n", input_buffer, output_buffer);
+
+	// try increasing the buffer, see if that fixes reliability
+	snd_seq_set_output_buffer_size(seq_handle(ctxp), output_buffer * 2);
+	snd_seq_set_input_buffer_size(seq_handle(ctxp), input_buffer * 2);
+
 	/* Loop through all the elements in the song and play them */
 	seq = md_sequence_init(root);
 	while ((el = md_sequence_next(seq)) != NULL) {
@@ -167,12 +176,6 @@ pmidi_playfile(seq_context_t *ctxp, char *filename)
 	seq_stop_timer(ctxp);
 
 	md_free(MD_ELEMENT(root));
-}
-
-int 
-pmidi_close(seq_context_t *ctxp)
-{
-	return snd_seq_close(seq_handle(ctxp));
 }
 
 /* Get a list of ports */

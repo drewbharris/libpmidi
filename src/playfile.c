@@ -30,9 +30,6 @@ int main(int argc, char *argv[]) {
     pthread_create(&thread, NULL, pthread_play, argv[1]);  
 
     usleep(1000 * 1000 * 5);
-    int resp = pmidi_close(pmidi_context);
-    printf("resp: %d\n", resp);
-    usleep(1000 * 1000 * 2);
 
     return 0;
 }
